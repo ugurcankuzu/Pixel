@@ -8,10 +8,10 @@ obj/
 *.jfm
 
 # Frontend
-web/node_modules/
-web/dist/
-web/.env
-web/.env.local
+PixelV0.WebApp/node_modules/
+PixelV0.WebApp/dist/
+PixelV0.WebApp/.env
+PixelV0.WebApp/.env.local
 
 # IDE
 .idea/
@@ -28,3 +28,9 @@ Thumbs.db
 # Appsettings with secrets
 **/appsettings.Development.json
 **/appsettings.Production.json
+
+# Output files
+output.txt
+output
+
+.env
