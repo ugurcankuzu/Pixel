@@ -1,0 +1,30 @@
+# Backend
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.dbmdl
+*.jfm
+
+# Frontend
+web/node_modules/
+web/dist/
+web/.env
+web/.env.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+*.log
+
+# Appsettings with secrets
+**/appsettings.Development.json
+**/appsettings.Production.json

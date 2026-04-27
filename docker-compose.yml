@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  # 1. API Servisi
+  api:
+    image: pixelv0-api
+    build:
+      context: .
+      dockerfile: PixelV0.API/Dockerfile # Dockerfile'ın yolu
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      # appsettings.json'daki connection string'i ezerek Postgres container'ına (db) işaret ediyoruz
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=pixelv0_db;Username=postgres;Password=supersecretpassword
+    depends_on:
+      db:
+        condition: service_healthy # DB tamamen hazır olana kadar API'yi bekleterek migration hatasını önleriz
+
+  # 2. PostgreSQL Servisi
+  db:
+    image: postgres:16-alpine
+    container_name: pixelv0_postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=supersecretpassword
+      - POSTGRES_DB=pixelv0_db
+    ports:
+      - "5433:5432" # Dilersen lokalden pgAdmin veya DBeaver ile bağlanabilmen için
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d pixelv0_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data: # DB verilerinin container silinse bile kalıcı olması için volume
